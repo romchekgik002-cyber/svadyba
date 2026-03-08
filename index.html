@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Свадебное приглашение</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body, html { margin:0; padding:0; font-family:'Playfair Display', serif; height:100%; width:100%; background:#fdfdfd; overflow-x:hidden; }
+.slider-container { position:relative; width:100vw; height:100vh; overflow:hidden; }
+.slide { position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:10px; opacity:0; transform:translateX(100%); transition:transform 0.6s ease, opacity 0.6s ease; overflow:hidden; background:white; box-sizing:border-box; }
+.slide.active { opacity:1; transform:translateX(0); z-index:1; }
+.slide.hero img.bg { position:absolute; width:100%; height:100%; object-fit:cover; top:0; left:0; filter:grayscale(100%); z-index:-1; }
+.hero h1 { font-size:50px; color:white; text-shadow:2px 2px 10px rgba(0,0,0,0.7); margin:0; }
+button { padding:16px 30px; border-radius:30px; border:none; background:#556b2f; color:white; font-size:18px; cursor:pointer; transition:0.3s; }
+button:hover { background:#3e4b1c; transform:scale(1.05); }
+.button-row { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:10px; }
+.map-container { width:90%; max-width:500px; aspect-ratio:1/1; border-radius:15px; overflow:hidden; margin:15px auto; }
+.map-container iframe { width:100%; height:100%; border:0; }
+.slide.gallery-slide .gallery-container { display:grid; grid-template-columns:repeat(auto-fit, minmax(100px,1fr)); gap:10px; justify-items:center; align-items:center; width:100%; }
+.slide.gallery-slide .gallery-container img.gallery-img { width:100%; height:100px; object-fit:cover; border-radius:8px; }
+
+.card-modern {
+  width:90%;
+  max-width:500px;
+  background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+  padding:20px;
+  border-radius:25px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.2);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  box-sizing:border-box;
+  align-items:center;
+}
+
+.card-modern h2 {
+  text-align:center;
+  color:#2e7d32;
+  font-size:24px;
+  margin-bottom:10px;
+}
+
+.card-fields {
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.card-fields label {
+  font-weight:600;
+  text-align:center;
+  color:#2e7d32;
+}
+
+.card-fields input, .card-fields select, .card-fields textarea {
+  width:100%;
+  padding:10px;
+  border-radius:12px;
+  border:1px solid #a5d6a7;
+  font-size:14px;
+  outline:none;
+  text-align:center;
+  transition: all 0.3s ease;
+}
+
+.card-fields input:focus, .card-fields select:focus, .card-fields textarea:focus {
+  border-color:#66bb6a;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  transform:scale(1.02);
+}
+
+.card-modern .button-row {
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  margin-top:10px;
+}
+
+.card-modern .button-row button {
+  background:#556b2f;
+  color:white;
+  padding:12px 25px;
+  border-radius:25px;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.card-modern .button-row button:hover {
+  background:#3e4b1c;
+  transform:scale(1.05);
+}
+
+.navigation { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:10px; z-index:10; }
+.nav-dot { width:12px; height:12px; border-radius:50%; background:#ccc; cursor:pointer; }
+.nav-dot.active { background:#556b2f; }
+
+@media screen and (max-width:480px){
+.hero h1 { font-size:36px; }
+button, .card-modern .button-row button { font-size:16px; padding:12px 18px; }
+.map-container { width:95%; }
+.slide.gallery-slide .gallery-container img.gallery-img { height:100px; }
+.card-modern { width:95%; padding:15px; }
+.card-modern h2 { font-size:20px; }
+.card-fields input, .card-fields select, .card-fields textarea { font-size:13px; padding:8px; }
+}
+</style>
+</head>
+<body>
+
+<div class="slider-container">
+
+  <!-- Первый экран -->
+  <div class="slide active hero">
+    <img class="bg" src="https://i.imgur.com/U981EfA.jpg" alt="Фон">
+    <h1>11.07.2026</h1>
+    <button id="open-invite">Открыть приглашение</button>
+  </div>
+
+  <!-- Таймер -->
+  <div class="slide">
+    <h2>До свадьбы осталось</h2>
+    <div id="timer" style="font-size:28px;color:#556b2f;"></div>
+    <div class="button-row">
+      <button class="prev" onclick="prevSlide()">Назад</button>
+      <button class="next" onclick="nextSlide()">Далее</button>
+    </div>
+  </div>
+
+  <!-- Место проведения -->
+  <div class="slide">
+    <h2>Место проведения</h2>
+    <p>Турбаза Чусовая</p>
+    <div class="map-container">
+      <iframe src="https://yandex.ru/map-widget/v1/?ll=59.552671%2C57.020687&mode=search&oid=122230922362&ol=biz&z=14.97" allowfullscreen></iframe>
+    </div>
+    <div class="button-row">
+      <button class="prev" onclick="prevSlide()">Назад</button>
+      <button class="next" onclick="nextSlide()">Далее</button>
+    </div>
+  </div>
+
+  <!-- Программа дня -->
+  <div class="slide">
+    <h2>Программа дня</h2>
+    <p>15:00 — сбор гостей</p>
+    <p>16:00 — церемония</p>
+    <p>17:00 — банкет</p>
+    <p>22:00 — вечеринка</p>
+    <div class="button-row">
+      <button class="prev" onclick="prevSlide()">Назад</button>
+      <button class="next" onclick="nextSlide()">Далее</button>
+    </div>
+  </div>
+
+  <!-- Дресс-код -->
+  <div class="slide">
+    <h2>Дресс-код</h2>
+    <p>Современная классика</p>
+    <div class="button-row">
+      <button class="prev" onclick="prevSlide()">Назад</button>
+      <button class="next" onclick="nextSlide()">Далее</button>
+    </div>
+  </div>
+
+  <!-- Галерея -->
+  <div class="slide gallery-slide">
+    <h2>Галерея вдохновения</h2>
+    <div class="gallery-container">
+      <img src="https://i.imgur.com/2TZ5siS.jpg" class="gallery-img">
+      <img src="https://cdn.pixabay.com/photo/2016/11/29/05/47/wedding-1867180_1280.jpg" class="gallery-img">
+      <img src="https://cdn.pixabay.com/photo/2017/08/06/00/38/wedding-cake-2593503_1280.jpg" class="gallery-img">
+      <img src="https://cdn.pixabay.com/photo/2017/09/02/13/17/bride-2702897_1280.jpg" class="gallery-img">
+    </div>
+    <div class="button-row">
+      <button class="prev" onclick="prevSlide()">Назад</button>
+      <button class="next" onclick="nextSlide()">Далее</button>
+    </div>
+  </div>
+
+  <!-- Анкета гостей современный стиль -->
+  <div class="slide">
+    <div class="card-modern">
+      <h2>Анкета гостя</h2>
+      <div class="card-fields">
+        <label for="firstname">Имя</label>
+        <input id="firstname" placeholder="Введите ваше имя">
+
+        <label for="lastname">Фамилия</label>
+        <input id="lastname" placeholder="Введите вашу фамилию">
+
+        <label for="attend">Сможете ли вы присутствовать?</label>
+        <select id="attend">
+          <option>Я приду</option>
+          <option>Я не приду</option>
+          <option>Не уверен(а)</option>
+        </select>
+
+        <label for="plusone">С кем придёте</label>
+        <input id="plusone" placeholder="Например: с Анной">
+
+        <label for="guests">Количество гостей (включая вас)</label>
+        <input type="number" id="guests" min="1">
+
+        <label for="kids">Будут ли дети?</label>
+        <select id="kids">
+          <option>Нет</option>
+          <option>Да</option>
+        </select>
+
+        <label for="drink">Предпочтительный напиток</label>
+        <select id="drink">
+          <option>Вино</option>
+          <option>Шампанское</option>
+          <option>Коктейли</option>
+          <option>Не пью</option>
+        </select>
+
+        <label for="food">Диетические ограничения</label>
+        <textarea id="food" placeholder="Укажите ограничения"></textarea>
+
+        <label for="song">Песня для вечеринки 🎵</label>
+        <input id="song" placeholder="Название песни">
+      </div>
+
+      <div class="button-row">
+        <button class="prev" onclick="prevSlide()">Назад</button>
+        <button onclick="send()">Отправить</button>
+      </div>
+      <p id="result"></p>
+    </div>
+  </div>
+
+  <div class="navigation" id="dots"></div>
+</div>
+
+<script>
+let current=0;
+const slides=document.querySelectorAll('.slide');
+const dotsContainer=document.getElementById('dots');
+
+function createDots(){
+  slides.forEach((_,i)=>{
+    const dot=document.createElement('div');
+    dot.classList.add('nav-dot');
+    if(i===0) dot.classList.add('active');
+    dot.addEventListener('click',()=>goToSlide(i));
+    dotsContainer.appendChild(dot);
+  });
+}
+function updateDots(){
+  const dots=document.querySelectorAll('.nav-dot');
+  dots.forEach((d,i)=>d.classList.toggle('active',i===current));
+}
+function showSlide(index){
+  slides.forEach(s=>s.classList.remove('active'));
+  slides[index].classList.add('active');
+  current=index;
+  updateDots();
+}
+function nextSlide(){ if(current<slides.length-1) showSlide(current+1); }
+function prevSlide(){ if(current>0) showSlide(current-1); }
+function goToSlide(index){ showSlide(index); }
+
+createDots();
+
+const weddingDate=new Date("2026-07-11T15:00:00");
+function updateTimer(){
+  const now=new Date();
+  const diff=weddingDate-now;
+  const days=Math.floor(diff/(1000*60*60*24));
+  const hours=Math.floor((diff/(1000*60*60))%24);
+  const minutes=Math.floor((diff/(1000*60))%60);
+  const seconds=Math.floor((diff/1000)%60);
+  document.getElementById("timer").innerHTML=`${days} дней ${hours} часов ${minutes} минут ${seconds} секунд`;
+}
+setInterval(updateTimer,1000);
+
+document.getElementById("open-invite").addEventListener("click", () => {
+  nextSlide();
+});
+
+async function send(){
+  const firstname=document.getElementById("firstname").value;
+  const lastname=document.getElementById("lastname").value;
+  const attend=document.getElementById("attend").value;
+  const plusone=document.getElementById("plusone").value;
+  const guests=document.getElementById("guests").value;
+  const kids=document.getElementById("kids").value;
+  const drink=document.getElementById("drink").value;
+  const food=document.getElementById("food").value;
+  const song=document.getElementById("song").value;
+
+  const text=`Новая анкета гостя 💍
+Имя: ${firstname}
+Фамилия: ${lastname}
+Присутствие: ${attend}
+С кем придет: ${plusone}
+Количество гостей: ${guests}
+Дети: ${kids}
+Напиток: ${drink}
+Диета: ${food}
+Песня: ${song}`;
+
+  const token="8681534401:AAGtzfY3OEGKLrb7enZvHe4bDCagElOdOWo";
+  const chat_id="545802151";
+
+  try{
+    const response=await fetch(`https://api.telegram.org/bot${token}/sendMessage`,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({chat_id:chat_id,text:text})
+    });
+    document.getElementById("result").innerHTML=response.ok?"Спасибо! Ответ отправлен ❤️":"Ошибка отправки";
+  }catch{
+    document.getElementById("result").innerHTML="Ошибка сети";
+  }
+}
+</script>
+</body>
+</html>
