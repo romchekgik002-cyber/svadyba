@@ -167,6 +167,7 @@ button, .card-modern .button-row button { font-size:16px; padding:12px 18px; }
 @keyframes rise {
   0% { transform: translate(0,0) rotate(45deg); opacity:0; }
   10% { opacity:1; }
+  90% { opacity:1; } /* сердечко видно почти всю анимацию */
   100% { transform: translate(var(--x), -600px) rotate(45deg); opacity:0; }
 }
 
@@ -177,11 +178,42 @@ button, .card-modern .button-row button { font-size:16px; padding:12px 18px; }
 @keyframes fadeUp { to {opacity:1; transform:translateY(0);} 
 }
 
-/* Адаптивность для телефонов */
+/* Сердечки для love-slide */
+.heart {
+  position: absolute;
+  bottom: 0;
+  width: 20px;
+  height: 20px;
+  background: pink;
+  transform: rotate(45deg);
+  animation-name: rise;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  border-radius: 3px 3px 0 0;
+}
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: pink;
+  border-radius: 50%;
+}
+.heart::before { top: -10px; left: 0; }
+.heart::after { left: 10px; top: 0; }
+
+/* Мобильная адаптация */
 @media(max-width:480px) {
-  .love-text p {
-    font-size: 22px;
-    line-height: 1.3;
+  .love-text p { font-size: 22px; line-height:1.3; }
+  .heart {
+    width: 14px;
+    height: 14px;
+  }
+  .heart::before,
+  .heart::after {
+    width: 14px;
+    height: 14px;
   }
 }
 
@@ -382,7 +414,7 @@ function showSlide(index){
       heart.classList.add('heart');
       heart.style.left=Math.random()*100+'%';
       heart.style.setProperty('--x', (Math.random()*100-50)+'px');
-      heart.style.animationDuration=(3+Math.random()*3)+'s';
+      heart.style.animationDuration=(6+Math.random()*4)+'s';
       heart.style.animationDelay=Math.random()*2+'s';
       heartsContainer.appendChild(heart);
     }
