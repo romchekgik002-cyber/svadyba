@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Свадебное приглашение</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
 body, html { margin:0; padding:0; font-family:'Playfair Display', serif; height:100%; width:100%; background:#fdfdfd; overflow-x:hidden; }
 .slider-container { position:relative; width:100vw; height:100vh; overflow:hidden; }
@@ -154,6 +155,36 @@ button, .card-modern .button-row button { font-size:16px; padding:12px 18px; }
 .card-modern h2 { font-size:20px; }
 .card-fields input, .card-fields select, .card-fields textarea { font-size:13px; padding:8px; }
 }
+/* Романтический слайд */
+.love-slide { position: relative; display:flex; flex-direction: column; justify-content:center; align-items:center; text-align:center; overflow:hidden; transition: opacity 1s ease, transform 1s ease; }
+.love-slide.active { animation: bgShift 12s ease-in-out infinite; }
+
+@keyframes bgShift {
+  0% {background: linear-gradient(135deg, #f9f7f2, #e8f5e9);}
+  50% {background: linear-gradient(135deg, #fff0f5, #e0f7fa);}
+  100% {background: linear-gradient(135deg, #f9f7f2, #e8f5e9);}
+}
+@keyframes rise {
+  0% { transform: translate(0,0) rotate(45deg); opacity:0; }
+  10% { opacity:1; }
+  100% { transform: translate(var(--x), -600px) rotate(45deg); opacity:0; }
+}
+
+.love-text p { opacity:0; transform:translateY(30px); font-family:'Great Vibes', cursive; font-size:46px; color:#556b2f; text-shadow: 1px 1px 6px rgba(255,182,193,0.5);}
+.line1 { animation: fadeUp 1s ease-out forwards; }
+.line2 { animation: fadeUp 1s 1s ease-out forwards; }
+.line3 { animation: fadeUp 1s 2s ease-out forwards; }
+@keyframes fadeUp { to {opacity:1; transform:translateY(0);} 
+}
+
+/* Адаптивность для телефонов */
+@media(max-width:480px) {
+  .love-text p {
+    font-size: 22px;
+    line-height: 1.3;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -165,6 +196,26 @@ button, .card-modern .button-row button { font-size:16px; padding:12px 18px; }
     <img class="bg" src="https://i.imgur.com/U981EfA.jpg" alt="Фон">
     <h1>11.07.2026</h1>
     <button id="open-invite">Открыть приглашение</button>
+  </div>
+
+  <!-- Романтический слайд -->
+  <div class="slide love-slide">
+  <div class="hearts"></div> <!-- мерцающие сердечки -->
+    <div class="love-glow"></div>
+
+    <div class="love-text">
+      <p class="line1">В нашей жизни наступает</p>
+      <p class="line2">особенный день —</p>
+      <p class="line3">
+        день, когда мы соединяем наши судьбы<br>
+        и начинаем совместный путь
+      </p>
+    </div>
+
+    <div class="button-row">
+      <button class="prev" onclick="prevSlide()">Назад</button>
+      <button class="next" onclick="nextSlide()">Далее</button>
+    </div>
   </div>
 
   <!-- Таймер -->
@@ -313,8 +364,30 @@ function updateDots(){
   dots.forEach((d,i)=>d.classList.toggle('active',i===current));
 }
 function showSlide(index){
-  slides.forEach(s=>s.classList.remove('active'));
-  slides[index].classList.add('active');
+  slides.forEach(s => {
+    s.classList.remove('active');
+    const texts = s.querySelectorAll('.love-text p');
+    texts.forEach(p => { p.style.animation='none'; void p.offsetWidth; p.style.animation=''; });
+  });
+
+  const slide = slides[index];
+  slide.classList.add('active');
+
+  // создаём сердечки для love-slide
+  if(slide.classList.contains('love-slide')){
+    const heartsContainer = slide.querySelector('.hearts');
+    heartsContainer.innerHTML='';
+    for(let i=0;i<25;i++){
+      const heart=document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left=Math.random()*100+'%';
+      heart.style.setProperty('--x', (Math.random()*100-50)+'px');
+      heart.style.animationDuration=(3+Math.random()*3)+'s';
+      heart.style.animationDelay=Math.random()*2+'s';
+      heartsContainer.appendChild(heart);
+    }
+  }
+
   current=index;
   updateDots();
 }
