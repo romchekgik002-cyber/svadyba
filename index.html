@@ -165,10 +165,23 @@ button, .card-modern .button-row button { font-size:16px; padding:12px 18px; }
   100% {background: linear-gradient(135deg, #f9f7f2, #e8f5e9);}
 }
 @keyframes rise {
-  0% { transform: translate(0,0) rotate(45deg); opacity:0; }
-  10% { opacity:1; }
-  90% { opacity:1; } /* сердечко видно почти всю анимацию */
-  100% { transform: translate(var(--x), -600px) rotate(45deg); opacity:0; }
+  0% {
+    transform: translateY(0);
+    opacity:0;
+  }
+
+  10% {
+    opacity:1;
+  }
+
+  90% {
+    opacity:1;
+  }
+
+  100% {
+   transform: translateY(-100vh) rotate(0deg);
+    opacity:0;
+  }
 }
 
 .love-text p { opacity:0; transform:translateY(30px); font-family:'Great Vibes', cursive; font-size:46px; color:#556b2f; text-shadow: 1px 1px 6px rgba(255,182,193,0.5);}
@@ -185,7 +198,6 @@ button, .card-modern .button-row button { font-size:16px; padding:12px 18px; }
   width: 20px;
   height: 20px;
   background: pink;
-  transform: rotate(45deg);
   animation-name: rise;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
@@ -235,7 +247,6 @@ button, .card-modern .button-row button { font-size:16px; padding:12px 18px; }
 .love-slide .button-row {
   position: relative;
   z-index:2; /* кнопки сверху всего */
-}
 }
 
 </style>
@@ -435,7 +446,7 @@ function showSlide(index){
       heart.classList.add('heart');
       heart.style.left=Math.random()*100+'%';
       heart.style.setProperty('--x', (Math.random()*100-50)+'px');
-      heart.style.animationDuration=(6+Math.random()*4)+'s';
+      heart.style.animationDuration=(15+Math.random()*10)+'s';
       heart.style.animationDelay=Math.random()*2+'s';
       heartsContainer.appendChild(heart);
     }
