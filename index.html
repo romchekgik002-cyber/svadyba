@@ -253,6 +253,47 @@ button, .card-modern .button-row button { font-size:16px; padding:12px 18px; }
   z-index:2; /* кнопки сверху всего */
 }
 
+    /* --- добавляем компактную карточку для мобильных --- */
+    @media(max-width:480px){
+      .card-modern.compact {
+        width: 95%;
+        padding: 8px;
+        gap: 4px;
+        max-height: 90vh;   /* помещаем почти весь экран */
+        overflow: hidden;   /* убираем скролл */
+      }
+
+      .card-modern.compact h2 {
+        font-size: 16px;
+        margin-bottom: 4px;
+      }
+
+      .card-fields label {
+        font-size: 11px;
+      }
+
+      .card-fields input,
+      .card-fields select,
+      .card-fields textarea {
+        padding: 5px;
+        font-size: 11px;
+      }
+
+      .card-modern.compact .button-row button {
+        font-size: 13px;
+        padding: 6px 12px;
+      }
+
+      .button-row {
+        gap: 5px;
+      }
+
+      /* немного уменьшаем textarea по высоте */
+      .card-fields textarea {
+        height: 40px;
+      }
+    }
+
 </style>
 </head>
 <body>
@@ -357,58 +398,58 @@ button, .card-modern .button-row button { font-size:16px; padding:12px 18px; }
 </div>
   </div>
 
-  <!-- Анкета гостей современный стиль -->
-  <div class="slide">
-    <div class="card-modern">
-      <h2>Анкета гостя</h2>
-      <div class="card-fields">
-        <label for="firstname">Имя</label>
-        <input id="firstname" placeholder="Введите ваше имя">
+<!-- Анкета гостей компактная -->
+<div class="slide">
+  <div class="card-modern compact">
+    <h2>Анкета гостя</h2>
+    <div class="card-fields">
+      <label for="firstname">Имя</label>
+      <input id="firstname" placeholder="Введите ваше имя">
 
-        <label for="lastname">Фамилия</label>
-        <input id="lastname" placeholder="Введите вашу фамилию">
+      <label for="lastname">Фамилия</label>
+      <input id="lastname" placeholder="Введите вашу фамилию">
 
-        <label for="attend">Сможете ли вы присутствовать?</label>
-        <select id="attend">
-          <option>Я приду</option>
-          <option>Я не приду</option>
-          <option>Не уверен(а)</option>
-        </select>
+      <label for="attend">Сможете ли вы присутствовать?</label>
+      <select id="attend">
+        <option>Я приду</option>
+        <option>Я не приду</option>
+        <option>Не уверен(а)</option>
+      </select>
 
-        <label for="plusone">С кем придёте</label>
-        <input id="plusone" placeholder="Например: с Анной">
+      <label for="plusone">С кем придёте</label>
+      <input id="plusone" placeholder="Например: с Анной">
 
-        <label for="guests">Количество гостей (включая вас)</label>
-        <input type="number" id="guests" min="1">
+      <label for="guests">Количество гостей</label>
+      <input type="number" id="guests" min="1">
 
-        <label for="kids">Будут ли дети?</label>
-        <select id="kids">
-          <option>Нет</option>
-          <option>Да</option>
-        </select>
+      <label for="kids">Будут ли дети?</label>
+      <select id="kids">
+        <option>Нет</option>
+        <option>Да</option>
+      </select>
 
-        <label for="drink">Предпочтительный напиток</label>
-        <select id="drink">
-          <option>Вино</option>
-          <option>Шампанское</option>
-          <option>Коктейли</option>
-          <option>Не пью</option>
-        </select>
+      <label for="drink">Предпочтительный напиток</label>
+      <select id="drink">
+        <option>Вино</option>
+        <option>Шампанское</option>
+        <option>Коктейли</option>
+        <option>Не пью</option>
+      </select>
 
-        <label for="food">Диетические ограничения</label>
-        <textarea id="food" placeholder="Укажите ограничения"></textarea>
+      <label for="food">Диета</label>
+      <textarea id="food" placeholder="Укажите ограничения"></textarea>
 
-        <label for="song">Песня для вечеринки 🎵</label>
-        <input id="song" placeholder="Название песни">
-      </div>
-
-      <div class="button-row">
-        <button class="prev" onclick="prevSlide()">Назад</button>
-        <button onclick="send()">Отправить</button>
-      </div>
-      <p id="result"></p>
+      <label for="song">Песня для вечеринки 🎵</label>
+      <input id="song" placeholder="Название песни">
     </div>
+
+    <div class="button-row">
+      <button class="prev" onclick="prevSlide()">Назад</button>
+      <button onclick="send()">Отправить</button>
+    </div>
+    <p id="result"></p>
   </div>
+</div>
 
   <div class="navigation" id="dots"></div>
 </div>
