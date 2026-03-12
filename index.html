@@ -257,36 +257,36 @@ button, .card-modern .button-row button { font-size:16px; padding:12px 18px; }
 @media(max-width:480px){
   .card-modern.compact {
     width: 95%;
-    padding: 8px;      /* чуть больше, чем 5px, для читаемости */
-    gap: 6px;          /* пространство между полями */
-    max-height: 100vh; /* максимально на весь экран */
-    overflow: hidden;  /* убираем скролл */
+    padding: 6px;
+    gap: 5px;
+    max-height: 95vh; /* почти весь экран */
+    overflow-y: auto;  /* вертикальный скролл разрешаем */
     box-sizing: border-box;
   }
 
   .card-modern.compact h2 {
-    font-size: 18px;   /* читаемый размер заголовка */
-    margin-bottom: 6px;
+    font-size: 16px;
+    margin-bottom: 5px;
   }
 
   .card-fields label {
-    font-size: 12px;   /* читаемый размер текста */
+    font-size: 12px;
   }
 
   .card-fields input,
   .card-fields select,
   .card-fields textarea {
-    padding: 6px;      /* немного больше для удобства */
+    padding: 5px;
     font-size: 12px;
   }
 
   .card-fields textarea {
-    height: 50px;      /* увеличиваем, чтобы текст помещался */
+    height: 40px;
   }
 
   .card-modern.compact .button-row button {
-    font-size: 14px;   /* кнопки видны и нажимаемы */
-    padding: 8px 16px;
+    font-size: 14px;
+    padding: 6px 12px;
   }
 }
 
