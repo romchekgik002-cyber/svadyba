@@ -174,12 +174,16 @@ button, .card-modern .button-row button { font-size:16px; padding:12px 18px; }
     opacity:1;
   }
 
+  50% {
+    transform: translateY(-50vh) translateX(calc(var(--x) / 2)) rotate(calc(var(--r) * 1deg));
+  }
+
   90% {
     opacity:1;
   }
 
   100% {
-   transform: translateY(-100vh) rotate(0deg);
+   transform: translateY(-100vh) translateX(var(--x)) rotate(calc(var(--r) * -1deg));
     opacity:0;
   }
 }
@@ -445,9 +449,10 @@ function showSlide(index){
       const heart=document.createElement('div');
       heart.classList.add('heart');
       heart.style.left=Math.random()*100+'%';
-      heart.style.setProperty('--x', (Math.random()*100-50)+'px');
+      heart.style.setProperty('--x', (Math.random()*50-25)+'px');
+      heart.style.setProperty('--r', Math.random()*20-10);
       heart.style.animationDuration=(15+Math.random()*10)+'s';
-      heart.style.animationDelay=Math.random()*2+'s';
+      heart.style.animationDelay=Math.random()*5+'s';
       heartsContainer.appendChild(heart);
     }
   }
